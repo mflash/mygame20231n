@@ -3,7 +3,11 @@ extends KinematicBody2D
 export (int) var speed := 200
 export (float) var rotation_speed = 1.5
 
+export (float) var gravity = 3000
+export (float) var jump_speed = 1000
+
 onready var target = position
+onready var sprite = $Sprite
 
 var velocity = Vector2.ZERO
 var rotation_dir = 0
@@ -14,10 +18,22 @@ func _input(event):
 		
 func get_8way_input():
 	#velocity = Vector2.ZERO
-	velocity.x = Input.get_action_strength("right")-Input.get_action_strength("left")
+	velocity.x = Input.get_action_strength("right")-Input.get_action_strength("left")	
 	velocity.y = Input.get_action_strength("down")-Input.get_action_strength("up")
 	velocity = velocity.normalized() * speed
-	print(velocity)
+	#print(velocity)
+	if velocity.x > 0:
+		sprite.play("right")
+	elif velocity.x < 0:
+		sprite.play("left")
+	elif velocity.y > 0:
+		sprite.play("down")
+	elif velocity.y < 0:
+		sprite.play("up")
+	else:
+		sprite.play("down")
+		sprite.stop()
+		sprite.frame = 0
 	
 func get_car_input():
 	rotation_dir = 0
@@ -39,12 +55,28 @@ func get_mouse_look():
 		
 func get_mouse_movement():
 	velocity = position.direction_to(target) * speed
+	
+func get_side_input():
+	velocity.x = Input.get_action_strength("right")-Input.get_action_strength("left")
+	velocity.x *= speed
+	if velocity.x > 0:
+		sprite.play("right")
+	elif velocity.x < 0:
+		sprite.play("left")
+	else:
+		sprite.stop()
+		sprite.frame = 0
+
+	if is_on_floor() and Input.is_action_just_pressed('jump'):
+		velocity.y = -jump_speed
 
 func _physics_process(delta):
 	#get_8way_input() # 1. movimento 8 direções
 	#get_car_input()  # 2. movimento com giro e avanço/retorno
 	#get_mouse_look() # 3. movimento com giro de mouse e teclado
-	get_mouse_movement() # 4. movimento com mouse click
+	#get_mouse_movement() # 4. movimento com mouse click
 	#rotation += rotation_dir * rotation_speed * delta # Usar com 3!
-	if position.distance_to(target) > 5: # Usar com o 4!
-		velocity = move_and_slide(velocity)
+	#if position.distance_to(target) > 5: # Usar com o 4!
+	velocity.y += gravity * delta
+	get_side_input()
+	velocity = move_and_slide(velocity, Vector2.UP)
