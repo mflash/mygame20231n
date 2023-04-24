@@ -5,6 +5,7 @@ export (float) var rotation_speed = 1.5
 
 export (float) var gravity = 3000
 export (float) var jump_speed = 1000
+export (PackedScene) var box : PackedScene
 
 onready var target = position
 onready var sprite = $Sprite
@@ -66,9 +67,13 @@ func get_side_input():
 	else:
 		sprite.stop()
 		sprite.frame = 0
-
+		
 	if is_on_floor() and Input.is_action_just_pressed('jump'):
 		velocity.y = -jump_speed
+		get_tree().call_group("HUD", "updateScore")
+		var b := box.instance()
+		b.position = global_position
+		owner.add_child(b)
 
 func _physics_process(delta):
 	#get_8way_input() # 1. movimento 8 direções
