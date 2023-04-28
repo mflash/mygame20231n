@@ -85,3 +85,5 @@ func _physics_process(delta):
 	velocity.y += gravity * delta
 	get_side_input()
 	velocity = move_and_slide(velocity, Vector2.UP)
+	#if position.y > 900:
+	#	get_tree().change_scene("res://GameOver.tscn")

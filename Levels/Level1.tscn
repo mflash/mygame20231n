@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://Items/Box.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GFX/tiles/grass2.png" type="Texture" id=3]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 147.5, 20.5 )
+
+[node name="Level1" type="Node"]
+
+[node name="Player" type="KinematicBody2D" parent="." instance=ExtResource( 4 )]
+position = Vector2( 513, 290 )
+script = ExtResource( 1 )
+box = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="Player" groups=["cameras"]]
+current = true
+limit_right = 1024
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Scenery" type="Node" parent="."]
+
+[node name="Grass" type="StaticBody2D" parent="Scenery"]
+position = Vector2( 521, 534 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Grass2" type="Sprite" parent="Scenery/Grass"]
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Scenery/Grass"]
+visible = false
+position = Vector2( -0.5, -0.5 )
+shape = SubResource( 1 )
+
+[node name="Grass2" type="StaticBody2D" parent="Scenery"]
+position = Vector2( 86, 305 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Grass2" type="Sprite" parent="Scenery/Grass2"]
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Scenery/Grass2"]
+visible = false
+position = Vector2( -0.5, -0.5 )
+shape = SubResource( 1 )
+
+[node name="Grass3" type="StaticBody2D" parent="Scenery"]
+position = Vector2( 258, 438 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Grass2" type="Sprite" parent="Scenery/Grass3"]
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Scenery/Grass3"]
+visible = false
+position = Vector2( -0.5, -0.5 )
+shape = SubResource( 1 )
+
+[node name="Grass4" type="StaticBody2D" parent="Scenery"]
+position = Vector2( 819, 453 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Grass2" type="Sprite" parent="Scenery/Grass4"]
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Scenery/Grass4"]
+visible = false
+position = Vector2( -0.5, -0.5 )
+shape = SubResource( 1 )
+
+[node name="SceneLimit" type="Position2D" parent="."]
+position = Vector2( 573, 700 )
+__meta__ = {
+"_gizmo_extents_": 57.6
+}
