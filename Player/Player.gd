@@ -9,6 +9,8 @@ export (PackedScene) var box : PackedScene
 
 onready var target = position
 onready var sprite = $Sprite
+onready var jumpSound = $JumpSound
+onready var shootSound = $ShootSound
 
 var velocity = Vector2.ZERO
 var rotation_dir = 0
@@ -68,7 +70,12 @@ func get_side_input():
 		sprite.stop()
 		sprite.frame = 0
 		
+	if Input.is_key_pressed(KEY_S):
+		#if not shootSound.playing:
+		shootSound.play()
+		
 	if is_on_floor() and Input.is_action_just_pressed('jump'):
+		jumpSound.play()
 		velocity.y = -jump_speed
 		get_tree().call_group("HUD", "updateScore")
 		var b := box.instance()

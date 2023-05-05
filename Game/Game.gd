@@ -20,6 +20,14 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_key_pressed(KEY_X):
 		call_deferred("goto_scene", "res://GameOver.tscn")
+		
+	if Input.is_action_just_pressed("music"):
+		print("Music!")
+		var effect : AudioEffectLowPassFilter = AudioServer.get_bus_effect(1,0)
+		if effect.cutoff_hz == 500:
+			effect.cutoff_hz = 20000
+		else:
+			effect.cutoff_hz = 500
 	
 func goto_scene(path: String):
 	print("Total children: "+str(get_child_count()))
